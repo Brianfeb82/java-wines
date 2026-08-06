@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+@theme {
+  /* ── Design tokens (spec §5) ─────────────────────── */
+  --color-midnight: #0a0a0a;
+  --color-ivory: #f5f0e8;
+  --color-burgundy: #5c1a1a;
+  --color-burgundy-deep: #431010;
+  --color-gold: #c9a84c;
+  --color-cream: #e8dcc8;
+  --color-muted: #888580;
+  --color-espresso: #241a12;
+
+  /* Product backdrop stops (Section 2 colour story) */
+  --color-bg-p1: #141311;
+  --color-bg-p2: #d8cbb2;
+  --color-bg-p3: #431010;
+
+  /* Fonts — wired to next/font variables set on <html> */
+  --font-display: var(--font-cormorant), "Georgia", serif;
+  --font-body: var(--font-inter), "Helvetica Neue", sans-serif;
+  --font-number: var(--font-playfair), "Georgia", serif;
+
+  /* Luxury letter-spacing */
+  --tracking-luxe: 0.15em;
+  --tracking-mega: 0.35em;
+}
+
+html {
+  /* GSAP owns scroll — do NOT enable scroll-behavior: smooth */
+  background: var(--color-midnight);
+}
+
+body {
+  background: var(--color-midnight);
+  color: var(--color-cream);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-midnight);
+}
+
+/* ── Film grain overlay (spec §5: SVG noise at 3–5% opacity) ── */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 240px 240px;
+}
+
+/* ── Small-caps label ── */
+.eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+
+/* ── Animated scroll hint ── */
+@keyframes scroll-hint {
+  0%   { transform: translateY(0);    opacity: 0; }
+  25%  { opacity: 1; }
+  100% { transform: translateY(14px); opacity: 0; }
+}
+.scroll-hint-dot {
+  animation: scroll-hint 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-hint-dot { animation: none; }
+}
+
+/* ── Fixed 3D canvas layer ── */
+.canvas-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Bottle always receives a soft vignette so it pops on any backdrop */
+.canvas-vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background: radial-gradient(ellipse 70% 60% at 50% 45%, transparent 55%, rgba(0, 0, 0, 0.35) 100%);
+}
