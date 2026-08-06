@@ -67,14 +67,11 @@ export function useRenderTier(): RenderTier {
       }
     })();
 
+    // Static fallback ONLY when WebGL truly isn't available. Reduced-motion
+    // users still get the scene — GSAP/Framer already respect their setting —
+    // so the site no longer silently swaps to the flat SVG on machines that
+    // report reduced motion (which was forcing the fallback even on desktop).
     if (!hasWebGL) {
-      setTier("static");
-      return;
-    }
-
-    const forced = new URLSearchParams(window.location.search).has("force3d");
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!forced && reduced) {
       setTier("static");
       return;
     }

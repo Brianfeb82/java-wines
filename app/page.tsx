@@ -105,16 +105,6 @@ export default function Page() {
         )}
       </div>
 
-      {/* Escape hatch when the static fallback is active */}
-      {tier === "static" && (
-        <a
-          href="?force3d"
-          className="fixed bottom-5 right-5 z-50 text-[0.6rem] uppercase tracking-luxe text-cream/40 underline underline-offset-4 transition-colors hover:text-gold"
-        >
-          Static mode — try the 3D version
-        </a>
-      )}
-
       <Navbar />
 
       <main className="relative z-20">
