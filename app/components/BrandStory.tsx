@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -10,17 +11,20 @@ const plates = [
   {
     caption: "The Slopes",
     title: "Vines in volcanic ash",
-    gradient: "linear-gradient(160deg, #241a12 0%, #4a3524 50%, #b8622a 100%)",
+    src: "/images/story-slopes.jpg",
+    alt: "Misty mountain ridges at dawn on the slopes of Mount Bromo",
   },
   {
     caption: "The Caldera",
     title: "Mist over the Sea of Sand",
-    gradient: "linear-gradient(160deg, #1a1a1a 0%, #3a3430 55%, #6b5d4f 100%)",
+    src: "/images/story-caldera.jpg",
+    alt: "Fog rolling over the volcanic hills of the Tengger caldera",
   },
   {
     caption: "The Ember",
     title: "First light over Bromo",
-    gradient: "linear-gradient(160deg, #431010 0%, #8a3a1a 55%, #c9a84c 100%)",
+    src: "/images/story-ember.jpg",
+    alt: "Golden first light breaking over the Bromo peak",
   },
 ];
 
@@ -105,20 +109,24 @@ export default function BrandStory() {
               data-parallax={(0.12 + i * 0.07).toFixed(2)}
               className={`relative ${i % 2 === 1 ? "md:ml-16" : "md:mr-16"}`}
             >
-              <div
-                className="relative h-72 w-full overflow-hidden md:h-80"
-                style={{ background: plate.gradient }}
-              >
-                {/* Grain handled globally; soft light sweep per plate */}
+              <div className="relative h-72 w-full overflow-hidden md:h-80">
+                <Image
+                  src={plate.src}
+                  alt={plate.alt}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover"
+                />
+                {/* Dark luxe overlay so captions stay readable */}
                 <div
                   className="absolute inset-0"
                   style={{
                     background:
-                      "radial-gradient(ellipse 90% 70% at 30% 20%, rgba(255,255,255,0.14), transparent 60%)",
+                      "linear-gradient(180deg, rgba(10,10,10,0.05) 40%, rgba(10,10,10,0.72) 100%)",
                   }}
                 />
                 <figcaption className="absolute bottom-0 left-0 p-6">
-                  <p className="text-[0.65rem] uppercase tracking-mega text-white/60">
+                  <p className="text-[0.65rem] uppercase tracking-mega text-white/70">
                     {plate.caption}
                   </p>
                   <p className="font-display mt-1 text-2xl italic text-white">

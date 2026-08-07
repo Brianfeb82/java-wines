@@ -25,9 +25,24 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://java-wines.vercel.app"),
   title: "JAVA — Born of Volcanic Soil",
   description:
     "A cinematic showcase of highland wines from the slopes of Mount Bromo. Grüner Veltliner, Cuvée Blanc and Cuvée Noir from Java Estate, East Java, Indonesia.",
+  openGraph: {
+    title: "JAVA — Born of Volcanic Soil",
+    description:
+      "A cinematic 3D showcase of highland wines from the slopes of Mount Bromo, East Java.",
+    url: "https://java-wines.vercel.app",
+    siteName: "JAVA Estate",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "JAVA — Born of Volcanic Soil",
+    description:
+      "A cinematic 3D showcase of highland wines from the slopes of Mount Bromo, East Java.",
+  },
 };
 
 export const viewport: Viewport = {
