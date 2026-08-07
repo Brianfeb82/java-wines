@@ -1,4 +1,4 @@
-# JAVA — Born of Volcanic Soil 🌋🍷
+# JAVA — Born of Volcanic Soil 
 
 A cinematic, scroll-driven 3D product showcase for a fictional winery on the slopes of Mount Bromo, East Java, Indonesia — where volcanic soil meets the art of the vine.
 
@@ -6,7 +6,7 @@ A cinematic, scroll-driven 3D product showcase for a fictional winery on the slo
 
 ---
 
-## 📸 Preview
+##  Preview
 
 > Best experienced live — scroll-driven 3D doesn't screenshot well.
 > **→ https://java-wines.vercel.app**
@@ -18,7 +18,7 @@ A cinematic, scroll-driven 3D product showcase for a fictional winery on the slo
 
 ---
 
-## ✨ The Experience
+## The Experience
 
 - **Procedural 3D Bordeaux bottle** — built with `LatheGeometry`, rendered in a physical glass transmission material, with canvas-painted labels that repaint per product.
 - **Custom GLSL water shader** — a scroll-reactive water surface; the bottle rises out of the water as you scroll, with ripples that respond to scroll velocity.
@@ -31,7 +31,7 @@ A cinematic, scroll-driven 3D product showcase for a fictional winery on the slo
 
 ---
 
-## 🛠 Tech Stack
+##  Tech Stack
 
 | Layer | Technology |
 | --- | --- |
@@ -44,7 +44,7 @@ A cinematic, scroll-driven 3D product showcase for a fictional winery on the slo
 
 ---
 
-## 🚀 Run Locally
+##  Run Locally
 
 ```bash
 git clone https://github.com/Brianfeb82/java-wines.git
@@ -59,7 +59,7 @@ Then open [http://localhost:3000](http://localhost:3000).
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 app/
@@ -71,7 +71,7 @@ app/
 
 ---
 
-## 👤 Author
+##  Author
 
 **Nedri Febrianto** — [github.com/Brianfeb82](https://github.com/Brianfeb82)
 
