@@ -77,4 +77,4 @@ app/
 
 ---
 
-*JAVA is a fictional brand created for portfolio and design-exploration purposes. No actual wine was harmed (or produced) in the making of this site.* 🍇
+*JAVA is a fictional brand created for portfolio and design-exploration purposes. No actual wine was harmed (or produced) in the making of this site.* 
