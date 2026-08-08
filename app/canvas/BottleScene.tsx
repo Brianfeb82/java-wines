@@ -1,12 +1,30 @@
 "use client";
 
-import { Suspense, useMemo } from "react";
+import { Suspense, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment, Lightformer } from "@react-three/drei";
 import BottleModel from "./BottleModel";
 import WaterSurface from "./WaterSurface";
+import SplashDroplets from "./SplashDroplets";
 import { BEATS, beatProgress, scrollStore } from "../hooks/useScrollProgress";
+
+/**
+ * Mouse parallax — the whole 3D group eases toward the cursor, making the
+ * scene feel alive rather than a fixed video. Rotation only; cheap.
+ */
+function ParallaxRig({ children }: { children: React.ReactNode }) {
+  const ref = useRef<THREE.Group>(null);
+  useFrame((state, delta) => {
+    const g = ref.current;
+    if (!g) return;
+    const { x, y } = state.pointer; // normalized -1..1
+    const t = 1 - Math.exp(-delta * 3);
+    g.rotation.y = THREE.MathUtils.lerp(g.rotation.y, x * 0.18, t);
+    g.rotation.x = THREE.MathUtils.lerp(g.rotation.x, -y * 0.08, t);
+  });
+  return <group ref={ref}>{children}</group>;
+}
 
 /**
  * Scroll-bound camera rig (spec §4):
@@ -60,8 +78,11 @@ export default function BottleScene({ lite = false }: { lite?: boolean }) {
           color="#fff5e0"
         />
 
-        <BottleModel />
-        <WaterSurface lite={lite} />
+        <ParallaxRig>
+          <BottleModel />
+          <WaterSurface lite={lite} />
+          <SplashDroplets />
+        </ParallaxRig>
 
         {/* Studio reflections for the glass */}
         <Environment resolution={256}>
