@@ -6,7 +6,6 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment, Lightformer } from "@react-three/drei";
 import BottleModel from "./BottleModel";
 import WaterSurface from "./WaterSurface";
-import SplashDroplets from "./SplashDroplets";
 import { BEATS, beatProgress, scrollStore } from "../hooks/useScrollProgress";
 
 /**
@@ -81,7 +80,6 @@ export default function BottleScene({ lite = false }: { lite?: boolean }) {
         <ParallaxRig>
           <BottleModel />
           <WaterSurface lite={lite} />
-          <SplashDroplets />
         </ParallaxRig>
 
         {/* Studio reflections for the glass */}

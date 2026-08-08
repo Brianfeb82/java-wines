@@ -11,7 +11,7 @@ import { WATER_LEVEL, scrollStore } from "../hooks/useScrollProgress";
    the water / plunging back in). */
 
 const WAVE_GLSL = /* glsl */ `
-float waveHeight(vec2 p, float t, float boost, float splashT) {
+float waveHeight(vec2 p, float t, float boost) {
   float h = 0.0;
   h += sin(p.x * 1.4 + t * 0.8) * 0.05;
   h += sin(p.y * 1.9 - t * 0.6) * 0.045;
@@ -19,14 +19,6 @@ float waveHeight(vec2 p, float t, float boost, float splashT) {
   float d = length(p);
   float ring = sin(d * 9.0 - t * 2.2);
   h += ring * 0.035 * exp(-d * 0.45) * (0.6 + boost);
-
-  // Splash shockwave: an expanding ring that decays over ~2.5s
-  if (splashT > 0.0 && splashT < 2.5) {
-    float front = splashT * 2.6;                    // ring travels outward
-    float band = exp(-pow((d - front) * 4.0, 2.0));  // gaussian pulse
-    float decay = exp(-splashT * 2.0);
-    h += band * decay * 0.22;
-  }
   return h;
 }
 `;
@@ -34,7 +26,6 @@ float waveHeight(vec2 p, float t, float boost, float splashT) {
 const VERT = /* glsl */ `
 uniform float uTime;
 uniform float uBoost;
-uniform float uSplashT;
 varying vec3 vWorldPos;
 varying vec3 vNormal;
 
@@ -44,9 +35,9 @@ void main() {
   vec3 pos = position;
   vec2 p = pos.xz;
   float e = 0.08;
-  float h  = waveHeight(p, uTime, uBoost, uSplashT);
-  float hx = waveHeight(p + vec2(e, 0.0), uTime, uBoost, uSplashT);
-  float hz = waveHeight(p + vec2(0.0, e), uTime, uBoost, uSplashT);
+  float h  = waveHeight(p, uTime, uBoost);
+  float hx = waveHeight(p + vec2(e, 0.0), uTime, uBoost);
+  float hz = waveHeight(p + vec2(0.0, e), uTime, uBoost);
   pos.y += h;
   vNormal = normalize(vec3(-(hx - h) / e, 1.0, -(hz - h) / e));
   vWorldPos = (modelMatrix * vec4(pos, 1.0)).xyz;
@@ -95,7 +86,6 @@ export default function WaterSurface({ lite = false }: { lite?: boolean }) {
   const matRef = useRef<THREE.ShaderMaterial>(null);
   const prevBottleY = useRef(0);
   const boost = useRef(0);
-  const splashStart = useRef(-1);
 
   const geometry = useMemo(() => {
     const segments = lite ? 96 : 160;
@@ -108,7 +98,6 @@ export default function WaterSurface({ lite = false }: { lite?: boolean }) {
     () => ({
       uTime: { value: 0 },
       uBoost: { value: 0 },
-      uSplashT: { value: -1 },
       uCamPos: { value: new THREE.Vector3() },
     }),
     []
@@ -132,10 +121,6 @@ export default function WaterSurface({ lite = false }: { lite?: boolean }) {
     const target = Math.min(speed * 0.9, 1.6);
     boost.current += (target - boost.current) * Math.min(1, delta * 3);
     m.uniforms.uBoost.value = boost.current;
-
-    // Splash shockwave: fires once ~0.35s after mount (matches droplets)
-    if (splashStart.current < 0) splashStart.current = state.clock.elapsedTime + 0.35;
-    m.uniforms.uSplashT.value = state.clock.elapsedTime - splashStart.current;
   });
 
   return (
